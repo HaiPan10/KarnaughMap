@@ -73,42 +73,46 @@ public class DonThuc {
 
     public DonThuc rutGonHaiDonThuc(DonThuc dt){ //Ung dung ca luat phan phoi, luat dong nhat va luat bu
         //Dung de chua ky tu giong nhau
+        if(dt.toString().equals(this.toString())) //2 don thuc giong nhau
+        {
+            return dt;
+        }
         StringBuilder sb = new StringBuilder();
-        //sb2 va sb3 dung de chua ky tu khac nhau
-        StringBuilder sb2 = new StringBuilder();
-        StringBuilder sb3 = new StringBuilder();
-        if(dt.getDonThuc().size() == this.donThuc.size()){
-            for(int i = 0; i < this.donThuc.size(); i++){
-                ArrayList<TuDon> temp = dt.getDonThuc();
-                if(temp.get(i).getBien().matches(this.getDonThuc().get(i).getBien())){
-                    if(temp.get(i).getBit() == '0'){
-                        sb.append(temp.get(i).getLetter()).append("'");
-                    }
-                    else
-                        sb.append(temp.get(i).getLetter());
-                }
-                else{
-                    //Tach 2 tu don khac nhau ra 2 chuoi rieng
-                    sb2.append(temp.get(i).getBien());
-                    sb3.append(this.donThuc.get(i).getBien());
-                }
+        //Dung de chua 2 ky tu khac nhau
+        //Temp1 se luu lai chuoi cua dt
+        String temp1 = dt.toString();
+        //temp2 se them vao nhung ky tu khac nhau
+        StringBuilder temp2 = new StringBuilder();
+        for(TuDon tuDon : this.getDonThuc()){
+            DonThuc cloneDt = new DonThuc(temp1);
+            if(cloneDt.chuaTuDon(tuDon)){
+                sb.append(tuDon.getBien());
+                //Xoa di cac ky tu giong nhau ben temp1
+                temp1 = temp1.replaceAll(tuDon.getBien(),"");
             }
-            if(sb2.length() > 0 && sb3.length() > 0){
-                DonThuc dt1 = new DonThuc(sb2.toString());
-                DonThuc dt2 = new DonThuc(sb3.toString());
-                //System.out.printf("%s\t%s\n",dt1.toString(),dt2.toString());
-                if(dt1.getDonThuc().size() == 1 && dt2.getDonThuc().size() == 1){
-                    //Neu nhu 2 don thuc da co cung kich thuoc thi tien hanh duyet 2 tu don
-                    TuDon tuDon1 = dt1.getDonThuc().get(0);
-                    TuDon tuDon2 = dt2.getDonThuc().get(0);
-                    if(Character.compare(tuDon1.getLetter(),tuDon2.getLetter()) == 0){
-                        if(Integer.parseInt(Character.toString(tuDon1.getBit())) +
-                                Integer.parseInt(Character.toString(tuDon2.getBit())) == 1){
-                            return new DonThuc(sb.toString());
-                        }
+            else{
+                //Nhung ky tu khac nhau se duoc luu lai temp2
+                temp2.append(tuDon.getBien());
+            }
+        }
+
+        if(temp1.length() > 0 && temp2.length() > 0){
+            DonThuc dt1 = new DonThuc(temp1);
+            DonThuc dt2 = new DonThuc(temp2.toString());
+            if(dt1.getDonThuc().size() == 1 && dt2.getDonThuc().size() == 1){
+                //Neu nhu 2 don thuc da co cung kich thuoc thi tien hanh duyet 2 tu don
+                TuDon tuDon1 = dt1.getDonThuc().get(0);
+                TuDon tuDon2 = dt2.getDonThuc().get(0);
+                if(Character.compare(tuDon1.getLetter(),tuDon2.getLetter()) == 0){
+                    if(Integer.parseInt(Character.toString(tuDon1.getBit())) +
+                            Integer.parseInt(Character.toString(tuDon2.getBit())) == 1){
+                        return new DonThuc(sb.toString());
                     }
                 }
             }
+        }
+        else if(temp1.length() == 0 || temp2.length() == 0){
+            return new DonThuc(sb.toString());
         }
         return null;
     }
@@ -124,5 +128,13 @@ public class DonThuc {
                 sb.append(pattern.charAt(i));
         }
         return new DonThuc(sb.toString());
+    }
+
+    public boolean chuaTuDon(TuDon tuDon){
+        for(TuDon temp : this.getDonThuc()){
+            if(temp.getBien().equals(tuDon.getBien()))
+                return true;
+        }
+        return false;
     }
 }

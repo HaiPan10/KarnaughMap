@@ -26,7 +26,7 @@ public class TuDon {
     }
 
     public char getBit(){
-        if(rutGon().length() >= 2)
+        if(rutGon().contains("'"))
             return '0';
         else
             return '1';
