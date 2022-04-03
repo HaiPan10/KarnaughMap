@@ -26,7 +26,7 @@ public class KarnaughMap {
         else if(getType() == 2)
             setMap(new int[2][2]);
         else
-            setMap(new int[1][2]);
+            setMap(new int[1][1]);
     }
 
     public KarnaughMap(DaThuc daThuc){
@@ -62,7 +62,7 @@ public class KarnaughMap {
         ArrayList<String> binaryStrings = new ArrayList<>();
         for(int i = 0; i < Math.pow(2.0, n * 1.0); i++){
             String temp;
-            temp = String.format("%" + n + "s", Integer.toBinaryString(i)).replaceAll(" ","0");
+            temp = toBinaryCodeString(i,n);
             binaryStrings.add(temp);
         }
         return binaryStrings;
@@ -106,11 +106,6 @@ public class KarnaughMap {
     public void nhap(DonThuc dt,int bit){
         String binary = dt.getBinary(pattern);
         int n = this.type;
-        if(this.type == 1) {
-            int j = Integer.parseInt(dt.getBinary(pattern),2);
-            map[0][j] = bit;
-            return;
-        }
         ArrayList<String> binaryStrings = taoCacChuoiNhiPhan(n);
         ArrayList<String> filter = locBinary(binaryStrings,binary);
         for(String temp : filter){
@@ -123,17 +118,53 @@ public class KarnaughMap {
     }
 
     public void hienThi(){
-        for(int[]i : getMap())
-        {
-            for(int j : i)
-            {
-                if(j == 1)
-                    System.out.printf("\t%c\t",ONE);
-                else
-                    System.out.printf("\t%c\t",ZERO);
+        //2 chuoi de hien thi cac bien nam o vi tri trong ban do karnaugh
+        String donThuc1;
+        String donThuc2;
+        if(this.type == 4 || this.type == 3 || this.type == 2){
+            //n de xac dinh chi so can tach ra cua chuoi pattern
+            //Ve theo chieu ngang
+            int n = this.type;
+            donThuc1 = this.pattern.substring(0,this.index);
+            donThuc2 = this.pattern.substring(this.index, n);
+            System.out.printf("\t\t%s\n",donThuc2);
+            if(this.type == 4) {
+                System.out.print("\t");
+                for (int i = 0; i < 4; i++) {
+                    String temp = toGrayCodeString(i, this.index);
+                    System.out.printf("\t%s\t", temp);
+                }
             }
+            else
+                System.out.print("\t\t0\t\t1");
             System.out.println();
+            //Ve theo chieu doc
+            int k = 0;
+            System.out.printf("%s",donThuc1);
+            for(int[]i : getMap())
+            {
+                String temp = toGrayCodeString(k,this.index);
+                System.out.printf("\t%s",temp);
+                for(int j : i)
+                {
+                    if(j == 1)
+                        System.out.printf("\t%c\t",ONE);
+                    else
+                        System.out.printf("\t%c\t",ZERO);
+                }
+                System.out.println();
+                ++k;
+            }
         }
+        System.out.println();
+    }
+
+    public static String toGrayCodeString(int i, int n){
+        return String.format("%"+n+"s",binaryToGray(Integer.toBinaryString(i))).replace(" ","0");
+    }
+
+    public static String toBinaryCodeString(int i,int n){
+        return String.format("%"+n+"s",Integer.toBinaryString(i)).replace(" ","0");
     }
 
     public String getPattern() {
@@ -155,7 +186,7 @@ public class KarnaughMap {
     public ArrayList<String> cacGiaTriMot(){
         ArrayList<String> result = new ArrayList<>();
         for(int i = 0; i < map.length; i++){
-            String temp = String.format("%"+this.index+"s",Integer.toBinaryString(i)).replace(" ","0");
+            String temp = toBinaryCodeString(i,this.index);
             StringBuilder sb = new StringBuilder(binaryToGray(temp));
             for(int j = 0; j < map[i].length;j++){
                 if(map[i][j] == 1){
@@ -164,7 +195,7 @@ public class KarnaughMap {
                         temp2 = Integer.toBinaryString(j);
                     }
                     else
-                        temp2 = String.format("%"+this.index+"s",Integer.toBinaryString(j)).replace(" ","0");
+                        temp2 = toBinaryCodeString(j,this.index);
                     String temp3 = sb.toString() + binaryToGray(temp2);
                     result.add(temp3);
                 }
