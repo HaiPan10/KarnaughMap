@@ -21,25 +21,28 @@ public class Main {
                 System.out.println();
                 System.out.print("Da thuc ban dau: ");
                 daThuc.hienThi();
-                KarnaughMap map = new KarnaughMap(daThuc);
-                map.hienThi();
-                if(map.cacGiaTriMot().size() < Math.pow(2.0,(double)pattern.length())){
-                    QuanLyTeBaoLon danhSachTeBao = new QuanLyTeBaoLon(pattern);
-                    danhSachTeBao.chonTeBaoLon(map.cacGiaTriMot());
-                    danhSachTeBao.hienThi();
-                    QuanLyTeBaoLon cacTeBaoDuocChon = new QuanLyTeBaoLon(pattern);
-                    cacTeBaoDuocChon.setDanhSachTeBaoLon(danhSachTeBao.cacTeBaoNhatThietChon());
-                    result = QuanLyTeBaoLon.taoDaThuc(cacTeBaoDuocChon.getDanhSachTeBaoLon());
+                if(!daThuc.rutGon().getDaThuc().isEmpty()){
+                    KarnaughMap map = new KarnaughMap(daThuc.rutGon());
+                    map.hienThi();
+                    if(map.cacGiaTriMot().size() < Math.pow(2.0,(double)pattern.length())){
+                        QuanLyTeBaoLon danhSachTeBao = new QuanLyTeBaoLon(pattern);
+                        danhSachTeBao.chonTeBaoLon(map.cacGiaTriMot());
+                        danhSachTeBao.hienThi();
+                        QuanLyTeBaoLon cacTeBaoDuocChon = new QuanLyTeBaoLon(pattern);
+                        cacTeBaoDuocChon.setDanhSachTeBaoLon(danhSachTeBao.cacTeBaoNhatThietChon());
+                        result = QuanLyTeBaoLon.taoDaThuc(cacTeBaoDuocChon.getDanhSachTeBaoLon());
+                    }
+                    else
+                        result = "1";
                 }
                 else
-                    result = "1";
+                    result = "0";
                 System.out.printf("\t\tKet qua da thuc toi thieu = %s\n",result);
             }
             else if(choose.equals("0"))
                 break;
             else
                 System.out.println("\t\tNhap sai nhap lai");
-            System.out.println("\t\tNhap enter de tiep tuc");
             System.out.println("===========================================================");
         }
     }

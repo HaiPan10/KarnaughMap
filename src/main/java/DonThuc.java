@@ -63,12 +63,22 @@ public class DonThuc {
         return sb.toString();
     }
 
-    public String rutGon(){
-        StringBuilder sb = new StringBuilder();
-        for(TuDon bien : this.donThuc){
-            sb.append(bien.rutGon());
+    public DonThuc rutGon(){
+        DonThuc result = new DonThuc();
+        result.setDonThuc((ArrayList<TuDon>)this.donThuc.clone());
+        for(int i = 1; i < result.getDonThuc().size(); i++){
+            for(int j = 0; j < i; j++){
+                if(result.getDonThuc().get(j).getLetter() == result.getDonThuc().get(i).getLetter()){
+                    if(result.getDonThuc().get(j).getBien().equals(result.getDonThuc().get(i).getBien())){
+                        result.getDonThuc().remove(j);
+                        break;
+                    }
+                    else
+                        return null;
+                }
+            }
         }
-        return sb.toString();
+        return result;
     }
 
     public DonThuc rutGonHaiDonThuc(DonThuc dt){ //Ung dung ca luat phan phoi, luat dong nhat va luat bu

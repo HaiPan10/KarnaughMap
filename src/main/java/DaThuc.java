@@ -51,4 +51,13 @@ public class DaThuc {
         Arrays.sort(temp);
         return Arrays.toString(temp).replaceAll("[^a-zA-Z]","");
     }
+
+    public DaThuc rutGon(){
+        DaThuc result = new DaThuc();
+        for(DonThuc donThuc : this.daThuc){
+            if(donThuc.rutGon() != null)
+                result.getDaThuc().add(donThuc);
+        }
+        return result;
+    }
 }
