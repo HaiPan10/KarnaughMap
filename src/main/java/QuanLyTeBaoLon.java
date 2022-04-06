@@ -6,10 +6,11 @@ public class QuanLyTeBaoLon {
     private ArrayList<TeBaoLon> danhSachTeBaoLon;
     private ArrayList<String> cacGiaTriMot;
     private String pattern;
+    public static String danhSachDuocChon;
 
     public QuanLyTeBaoLon(String pattern){
         setDanhSachTeBaoLon(new ArrayList<>());
-
+        danhSachDuocChon = "";
         setPattern(pattern);
     }
 
@@ -96,40 +97,84 @@ public class QuanLyTeBaoLon {
         this.pattern = pattern;
     }
 
-    public ArrayList<TeBaoLon> cacTeBaoNhatThietChon(){
-        if(cacGiaTriMot == null || this.danhSachTeBaoLon == null)
-            return null;
+//    public ArrayList<TeBaoLon> cacTeBaoNhatThietChon(){
+//        if(cacGiaTriMot == null || this.danhSachTeBaoLon == null)
+//            return null;
+//        @SuppressWarnings("unchecked")
+//        ArrayList<String> cloneCacGiaTriMot = (ArrayList<String>) this.cacGiaTriMot.clone();
+//        @SuppressWarnings("unchecked")
+//        ArrayList<TeBaoLon> cloneTeBao = (ArrayList<TeBaoLon>) this.danhSachTeBaoLon.clone();
+//        //clone la gia tri copy tu cac gia tri mot
+//        ArrayList<TeBaoLon> choose = new ArrayList<>(); //Chon cac te bao nhat thiet phai chon
+//        //Duyet qua tung cac gia tri mot
+//        for(int i = 0; i < cloneCacGiaTriMot.size(); i++){
+//            //Tao temp de luu lai cac te bao lon chua gia tri mot do
+//            ArrayList<TeBaoLon> temp = new ArrayList<>();
+//            DonThuc donThuc = DonThuc.nhiPhanSangDonThuc(cloneCacGiaTriMot.get(i),pattern);
+//            for(TeBaoLon teBao : cloneTeBao){
+//                if(teBao.getTeBaoLon().rutGonHaiDonThuc(donThuc) != null){
+//                    temp.add(teBao);
+//                }
+//            }
+//            //Neu chi co mot te bao lon chua gia tri mot
+//            //thi no se la te bao lon nhat thiet phai chon
+//            //dong thoi loai bo cac gia tri mot thuoc te bao lon
+//            if(temp.size() != 0){
+//                //Tien hanh chon te bao lon nhat trong danh sach chon duoc
+//                TeBaoLon teBao = temp.get(0);
+//                for(int index = 1; index < temp.size(); index++){
+//                    if(temp.get(index).getTeBaoLon().toString().length() < teBao.getTeBaoLon().toString().length()){
+//                        teBao = temp.get(index);
+//                    }
+//                }
+//                choose.add(teBao);
+//                //Loc ra cac so nhi phan cua te bao duoc chon
+//                ArrayList<String> binary = KarnaughMap.locBinary(cloneCacGiaTriMot,teBao.getTeBaoLon().getBinary(pattern));
+//                i = -1;
+//                //Loai bo te bao da duoc chon ra khoi danh sach
+//                for(TeBaoLon temp2 : cloneTeBao){
+//                    if(temp2.getTeBaoLon().toString().equals(teBao.getTeBaoLon().toString())){
+//                        cloneTeBao.remove(temp2);
+//                        break;
+//                    }
+//                }
+//                //Loai bo cac vi tri gia tri mot
+//                for (String s : binary) {
+//                    for (int k = 0; k < cloneCacGiaTriMot.size(); k++) {
+//                        if (s.equals(cloneCacGiaTriMot.get(k))) {
+//                            cloneCacGiaTriMot.remove(k);
+//                            break;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        return choose;
+//    }
+    public void cacTeBaoNhatThietChon(ArrayList<String> giaTriMot, ArrayList<TeBaoLon> danhSachTeBao,ArrayList<TeBaoLon> choose){
+        if(giaTriMot.size() == 0 || danhSachTeBao.size() == 0){
+            return;
+        }
         @SuppressWarnings("unchecked")
-        ArrayList<String> cloneCacGiaTriMot = (ArrayList<String>) this.cacGiaTriMot.clone();
+        ArrayList<String> cloneCacGiaTriMot = (ArrayList<String>) giaTriMot.clone();
         @SuppressWarnings("unchecked")
-        ArrayList<TeBaoLon> cloneTeBao = (ArrayList<TeBaoLon>) this.danhSachTeBaoLon.clone();
+        ArrayList<TeBaoLon> cloneTeBao = (ArrayList<TeBaoLon>) danhSachTeBao.clone();
         //clone la gia tri copy tu cac gia tri mot
-        ArrayList<TeBaoLon> choose = new ArrayList<>(); //Chon cac te bao nhat thiet phai chon
         //Duyet qua tung cac gia tri mot
-        for(int i = 0; i < cloneCacGiaTriMot.size(); i++){
-            //Tao temp de luu lai cac te bao lon chua gia tri mot do
+        while(true){
             ArrayList<TeBaoLon> temp = new ArrayList<>();
-            DonThuc donThuc = DonThuc.nhiPhanSangDonThuc(cloneCacGiaTriMot.get(i),pattern);
+            DonThuc donThuc = DonThuc.nhiPhanSangDonThuc(cloneCacGiaTriMot.get(0),pattern);
             for(TeBaoLon teBao : cloneTeBao){
                 if(teBao.getTeBaoLon().rutGonHaiDonThuc(donThuc) != null){
                     temp.add(teBao);
                 }
             }
-            //Neu chi co mot te bao lon chua gia tri mot
-            //thi no se la te bao lon nhat thiet phai chon
-            //dong thoi loai bo cac gia tri mot thuoc te bao lon
-            if(temp.size() != 0){
+            for(int i = 0; i < temp.size(); i++){
                 //Tien hanh chon te bao lon nhat trong danh sach chon duoc
-                TeBaoLon teBao = temp.get(0);
-                for(int index = 1; index < temp.size(); index++){
-                    if(temp.get(index).getTeBaoLon().toString().length() < teBao.getTeBaoLon().toString().length()){
-                        teBao = temp.get(index);
-                    }
-                }
+                TeBaoLon teBao = temp.get(i);
                 choose.add(teBao);
                 //Loc ra cac so nhi phan cua te bao duoc chon
                 ArrayList<String> binary = KarnaughMap.locBinary(cloneCacGiaTriMot,teBao.getTeBaoLon().getBinary(pattern));
-                i = -1;
                 //Loai bo te bao da duoc chon ra khoi danh sach
                 for(TeBaoLon temp2 : cloneTeBao){
                     if(temp2.getTeBaoLon().toString().equals(teBao.getTeBaoLon().toString())){
@@ -146,9 +191,35 @@ public class QuanLyTeBaoLon {
                         }
                     }
                 }
+                String daThuc = taoDaThuc(choose);
+                if(cloneCacGiaTriMot.size() == 0){
+                    if(danhSachDuocChon.isEmpty()){
+                        danhSachDuocChon = daThuc;
+                    }
+                    else if(danhSachDuocChon.length() > daThuc.length()){
+                        danhSachDuocChon = daThuc;
+                    }
+                }
+                else{
+                    cacTeBaoNhatThietChon(cloneCacGiaTriMot,cloneTeBao,choose);
+                }
+                for (String s : binary) {
+                    boolean flag = true;
+                    for (int k = 0; k < cloneCacGiaTriMot.size(); k++) {
+                        if(s.equals(cloneCacGiaTriMot.get(k))){
+                            flag = false;
+                            break;
+                        }
+                    }
+                    if(flag){
+                        cloneCacGiaTriMot.add(s);
+                    }
+                }
+                cloneTeBao.add(teBao);
+                choose.remove(teBao);
             }
+            break;
         }
-        return choose;
     }
 
     public ArrayList<String> getCacGiaTriMot() {

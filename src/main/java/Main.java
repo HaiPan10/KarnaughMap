@@ -28,9 +28,8 @@ public class Main {
                         QuanLyTeBaoLon danhSachTeBao = new QuanLyTeBaoLon(pattern);
                         danhSachTeBao.chonTeBaoLon(map.cacGiaTriMot());
                         danhSachTeBao.hienThi();
-                        QuanLyTeBaoLon cacTeBaoDuocChon = new QuanLyTeBaoLon(pattern);
-                        cacTeBaoDuocChon.setDanhSachTeBaoLon(danhSachTeBao.cacTeBaoNhatThietChon());
-                        result = QuanLyTeBaoLon.taoDaThuc(cacTeBaoDuocChon.getDanhSachTeBaoLon());
+                        danhSachTeBao.cacTeBaoNhatThietChon(map.cacGiaTriMot(),danhSachTeBao.getDanhSachTeBaoLon(), new ArrayList<>());
+                        result = QuanLyTeBaoLon.danhSachDuocChon;
                     }
                     else
                         result = "1";
