@@ -44,5 +44,6 @@ public class Main {
                 System.out.println("\t\tNhap sai nhap lai");
             System.out.println("===========================================================");
         }
+        sc.close();
     }
 }

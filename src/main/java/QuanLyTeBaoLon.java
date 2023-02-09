@@ -1,6 +1,6 @@
-import java.io.Serializable;
+//import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
+//import java.util.Collections;
 
 public class QuanLyTeBaoLon {
     private ArrayList<TeBaoLon> danhSachTeBaoLon;
